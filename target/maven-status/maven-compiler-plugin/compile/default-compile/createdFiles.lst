@@ -1,0 +1,3 @@
+com\hodvidar\cr\json\reader\JsonReader.class
+com\hodvidar\cr\http\Requester.class
+com\hodvidar\cr\text\utils\NumericalConverter.class
