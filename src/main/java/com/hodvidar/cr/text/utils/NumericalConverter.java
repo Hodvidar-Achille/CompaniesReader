@@ -15,7 +15,7 @@ public class NumericalConverter {
      * 4.76B --> 4760000000 <br/>
      */
     public static BigDecimal parseNumericalValue(String numericalString) {
-        if(null == numericalString
+        if (null == numericalString
                 || numericalString.isEmpty()
                 || numericalString.isBlank()) {
             return new BigDecimal(0);
@@ -25,35 +25,35 @@ public class NumericalConverter {
         } catch (final Exception e) {
             // empty, continue
         }
-        final int lastIndex = numericalString.length()-1;
+        final int lastIndex = numericalString.length() - 1;
         final char exponent = numericalString.charAt(lastIndex);
         final String numericalPart = numericalString.substring(0, lastIndex);
         BigDecimal numericalValue = new BigDecimal(numericalPart);
         try {
             numericalValue = multiplyByExponent(exponent, numericalValue);
         } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Cannot parse '"+numericalString+"'");
+            throw new IllegalArgumentException("Cannot parse '" + numericalString + "'");
         }
         numericalValue = numericalValue.stripTrailingZeros();
         return numericalValue;
     }
 
     private static BigDecimal multiplyByExponent(char exponent, BigDecimal number) {
-        switch(exponent) {
+        switch (exponent) {
             case 'k':
             case 'K':
                 return number.multiply(ONE_THOUSAND);
             case 'M':
                 return number.multiply(ONE_MILLION);
-            case 'B' :
+            case 'B':
                 return number.multiply(ONE_BILLION);
             default:
-                throw new IllegalArgumentException("Cannot parse '"+exponent+"'");
+                throw new IllegalArgumentException("Cannot parse '" + exponent + "'");
         }
     }
 
     public static String removeDollar(String input) {
-        if(input == null) {
+        if (input == null) {
             return null;
         }
         return input.replaceAll("[$]", "");
