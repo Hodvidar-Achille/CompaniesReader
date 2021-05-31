@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -89,6 +91,34 @@ public class JsonReaderTest {
             jsonToken = jsonParser.nextToken();
         }
         assertThat(numberOfRecords).isEqualTo(5000);
+    }
+
+    @Test
+    void jacksonJsonReadingLargeFile_totalMoneyRaised() throws IOException {
+        final String filePath = RESOURCES + File.separator + COMPANIES;
+        final File jsonFile = new File(filePath);
+        JsonFactory jsonfactory = new JsonFactory(); //init factory
+        JsonParser jsonParser = jsonfactory.createParser(jsonFile);
+        Map<String, Integer> devises = new HashMap<>();
+        JsonToken jsonToken = jsonParser.nextToken();
+        while (jsonToken != null) {
+            String fieldname = jsonParser.getCurrentName();
+            if ("total_money_raised".equals(fieldname)) {
+                jsonToken = jsonParser.nextToken();
+                String moneyRaised = jsonParser.getText();
+                String deviseRaised = moneyRaised.substring(0, 1);
+                if (devises.containsKey(deviseRaised)) {
+                    devises.put(deviseRaised, devises.get(deviseRaised) + 1);
+                } else {
+                    devises.put(deviseRaised, 1);
+                }
+            }
+            jsonToken = jsonParser.nextToken();
+        }
+        assertThat(devises.get("$")).isEqualTo(4898);
+        assertThat(devises.get("€")).isEqualTo(71);
+        assertThat(devises.get("£")).isEqualTo(21);
+        assertThat(devises.get("C$")).isEqualTo(10);
     }
 
 }

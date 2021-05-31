@@ -1,1 +1,42 @@
-[{"name": "test1", "info": {"address": {"city":  "Lyon"}}}, {"name": "test2", "info": {"address": {"city":  "Paris"}}},{"name": "test3", "info": {"adress": {"city":  "Granville"}}},{"name": "test4", "info": {"address": {"city":  "Lille"}}},{"name": "test5", "info": {"address": {"city":  "Bordeaux"}}}]
+[
+  {
+    "name": "test1",
+    "info": {
+      "address": {
+        "city": "Lyon"
+      }
+    }
+  },
+  {
+    "name": "test2",
+    "info": {
+      "address": {
+        "city": "Paris"
+      }
+    }
+  },
+  {
+    "name": "test3",
+    "info": {
+      "adress": {
+        "city": "Granville"
+      }
+    }
+  },
+  {
+    "name": "test4",
+    "info": {
+      "address": {
+        "city": "Lille"
+      }
+    }
+  },
+  {
+    "name": "test5",
+    "info": {
+      "address": {
+        "city": "Bordeaux"
+      }
+    }
+  }
+]

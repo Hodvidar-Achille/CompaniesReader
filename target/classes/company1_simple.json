@@ -1,1 +1,7 @@
-[{ "name" : "Wetpaint", "homepage_url" : "http://wetpaint-inc.com", "total_money_raised" : "$39.8M"}]
+[
+  {
+    "name": "Wetpaint",
+    "homepage_url": "http://wetpaint-inc.com",
+    "total_money_raised": "$39.8M"
+  }
+]

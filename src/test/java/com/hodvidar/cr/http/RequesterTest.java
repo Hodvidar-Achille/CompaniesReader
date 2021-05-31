@@ -1,5 +1,6 @@
 package com.hodvidar.cr.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,9 +39,13 @@ public class RequesterTest {
     }
 
     @Test
-    void performGet() throws IOException {
-        final String urlComplet = "http://api.ipstack.com/62.212.109.180?access_key=712afde4e4da8fb6a016be61a8051822&format=1";
-        final Map<String, String> map = new HashMap<>();
-        Requester.performGet(urlComplet, map);
+    void performGet() throws JsonProcessingException {
+        final String apiOutput = Requester.getInstance().performGet(TEST_URL);
+        //Using the JSON simple library parse the string into a json object
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree(apiOutput);
+        String result = json.get("country_name").asText();
+        assertThat(result).isEqualTo("United States");
     }
+
 }

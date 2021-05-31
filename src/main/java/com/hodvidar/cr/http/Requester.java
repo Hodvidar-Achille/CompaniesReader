@@ -1,53 +1,57 @@
 package com.hodvidar.cr.http;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import com.hodvidar.cr.utils.recources.ResourceCloser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
 
 public class Requester {
 
-    public static HttpResponse<String> performGet(final String urlInput,
-                                                  final Map<String, String> parameters)
-            throws IOException {
-        URL url = new URL(urlInput);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        con.setDoOutput(true);
-        DataOutputStream out = new DataOutputStream(con.getOutputStream());
-        out.writeBytes(getParamsString(parameters));
-        out.flush();
-        out.close();
-        // con.setRequestProperty("Content-Type", "application/json");
-        String contentType = con.getHeaderField("Content-Type");
-        con.setConnectTimeout(5000);
-        con.setReadTimeout(5000);
-        Object response = con.getContent();
-        Map<String, List<String>> fields = con.getHeaderFields();
+    private static Requester INSTANCE = null;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private Requester() {
+    }
+
+    public static synchronized Requester getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Requester();
+        }
+        return INSTANCE;
+    }
+
+    public String performGet(final String fullURL) {
+        HttpURLConnection conn = null;
+        InputStreamReader in = null;
+        BufferedReader br = null;
+        try {
+            final URL url = new URL(fullURL);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP Error code : "
+                        + conn.getResponseCode());
+            }
+            in = new InputStreamReader(conn.getInputStream());
+            br = new BufferedReader(in);
+            final String output = br.readLine();
+            br.close();
+            in.close();
+            conn.disconnect();
+            return output;
+        } catch (Exception e) {
+            logger.warn("An exception occurred during the HTTP connection", e);
+        } finally {
+            ResourceCloser.closeResource(br);
+            ResourceCloser.closeResource(in);
+            ResourceCloser.disconnectConnection(conn);
+        }
         return null;
     }
 
-
-    private static String getParamsString(Map<String, String> params)
-            throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            result.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
-            result.append("&");
-        }
-
-        String resultString = result.toString();
-        return resultString.length() > 0
-                ? resultString.substring(0, resultString.length() - 1)
-                : resultString;
-    }
 }

@@ -1,3 +1,3 @@
 com\hodvidar\cr\http\RequesterTest.class
 com\hodvidar\cr\json\reader\JsonReaderTest.class
-com\hodvidar\cr\text\utils\NumericalConverterTest.class
+com\hodvidar\cr\utils\numeric\NumericalConverterTest.class
