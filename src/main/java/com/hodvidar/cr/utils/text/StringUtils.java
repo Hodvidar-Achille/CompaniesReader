@@ -41,8 +41,8 @@ public class StringUtils {
      * www.lightsurf.com
      */
     public static String sanitizeDomain(final String domainRaw) {
-        String domain =  domainRaw.replaceAll("http://", "");
-        domain =  domain.replaceAll("https://", "");
+        String domain = domainRaw.replaceAll("http://", "");
+        domain = domain.replaceAll("https://", "");
         return domain.split("/")[0];
     }
 

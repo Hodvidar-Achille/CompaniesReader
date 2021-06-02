@@ -76,7 +76,7 @@ public class Company {
             return country;
         }
         try {
-            country =  this.asyncCountryCaller.get();
+            country = this.asyncCountryCaller.get();
         } catch (InterruptedException | ExecutionException e) {
             logger.warn("An exception occurred", e);
         }

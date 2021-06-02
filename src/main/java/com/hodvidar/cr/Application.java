@@ -27,10 +27,10 @@ public class Application {
         // 3) for each country keep track of total money raised in USD (convert if different)
         // 4) once all async work are done, perform computation to have average value
         // 5) Write down results
-        logger.info("=== RESULT ===\n"+companyHolder.getNumberOfCompanyAndMoneyRaisedByCountry());
+        logger.info("=== RESULT ===\n" + companyHolder.getNumberOfCompanyAndMoneyRaisedByCountry());
         final long after = System.currentTimeMillis();
         logger.info("\n--------------------------------- \nCompany Reader App end.");
-        logger.info("Time taken : "+ MillisecondFormatter.asTime(after-before));
+        logger.info("Time taken : " + MillisecondFormatter.asTime(after - before));
     }
 
 }

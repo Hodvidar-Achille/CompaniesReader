@@ -2,7 +2,6 @@ package com.hodvidar.cr.json.reader;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
-import com.hodvidar.cr.http.iptrack.IpTrackRequester;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

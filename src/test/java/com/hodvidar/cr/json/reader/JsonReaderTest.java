@@ -20,7 +20,6 @@ public class JsonReaderTest {
     public static final String RESOURCES = "src" + File.separator + "main" + File.separator + "resources";
     public static final String COMPANY_1_SIMPLE = "company1_simple.json";
     public static final String COMPANY_EXAMPLE = "company_example.json";
-    public static final String COMPANY_1 = "company1.json";
     public static final String COMPANIES = "companies.json";
 
     @Test

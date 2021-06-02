@@ -74,7 +74,7 @@ public class CompanyHolder {
     }
 
     public String getNumberOfCompanyAndMoneyRaisedByCountry() {
-        if(this.numberOfCompanyAndMoneyRaisedByCountry != null) {
+        if (this.numberOfCompanyAndMoneyRaisedByCountry != null) {
             return this.numberOfCompanyAndMoneyRaisedByCountry;
         }
         if (companyDataByCountry == null) {

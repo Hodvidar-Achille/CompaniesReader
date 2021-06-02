@@ -1,9 +1,5 @@
 package com.hodvidar.cr.utils.numeric;
 
-import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 public final class MillisecondFormatter {
     private static final long oneHour = 3600000;
     private static final long oneMinute = 60000;

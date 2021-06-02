@@ -14,7 +14,7 @@ public class IpTrackRequesterTest {
             "www.concordnow.com = United States",
             "www.obi.de = Germany"
     })
-    void parseNumericalValue(final String domain, final String expectedCountry) {
+    void getCountry(final String domain, final String expectedCountry) {
         IpTrackRequester requester = IpTrackRequester.getInstance();
         assertThat(requester.getCountry(domain)).isEqualTo(expectedCountry);
     }

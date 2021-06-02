@@ -10,25 +10,6 @@ import java.math.RoundingMode;
 public class CurrencyConverter {
 
     private static final BigDecimal GBP_TO_USD_RATE = new BigDecimal(1.3673);
-
-    // http://data.fixer.io/api/2021-01-01?access_key=81e0c594e36dbbc9c4885d27aeb72a0d&symbols=USD,GBP,CAD&format=1
-    // =
-    /*
-        success	true
-        timestamp	1609545599
-        historical	true
-        base	"EUR" (€)
-        date	"2021-01-01"
-        rates
-        USD	1.217576 ($)
-        GBP	0.890496 (£)
-        CAD	1.551131 (C$)
-
-        -->
-           £1 GBP  = $1.3673 USD
-           €1 EUR  = $1.2134 USD
-           C$1 CAD = $0.7855 USD
-     */
     private static final BigDecimal EUR_TO_USD_RATE = new BigDecimal(1.2134);
     private static final BigDecimal CAD_TO_USD_RATE = new BigDecimal(0.7855);
 
