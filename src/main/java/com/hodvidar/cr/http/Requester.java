@@ -1,6 +1,6 @@
 package com.hodvidar.cr.http;
 
-import com.hodvidar.cr.utils.recources.ResourceCloser;
+import com.hodvidar.cr.utils.resources.ResourceCloser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,24 +34,23 @@ public class Requester {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP Error code : "
-                        + conn.getResponseCode());
+                logger.warn("Failed : HTTP Error code : "
+                        + conn.getResponseCode()
+                        + "for url '" + fullURL + "'");
+                throw new IllegalStateException("HTTP error");
             }
             in = new InputStreamReader(conn.getInputStream());
             br = new BufferedReader(in);
             final String output = br.readLine();
-            br.close();
-            in.close();
-            conn.disconnect();
             return output;
         } catch (Exception e) {
             logger.warn("An exception occurred during the HTTP connection", e);
+            throw new IllegalStateException("HTTP error");
         } finally {
             ResourceCloser.closeResource(br);
             ResourceCloser.closeResource(in);
             ResourceCloser.disconnectConnection(conn);
         }
-        return null;
     }
 
 }

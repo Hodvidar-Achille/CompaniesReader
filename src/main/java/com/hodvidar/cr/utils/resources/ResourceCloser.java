@@ -1,4 +1,4 @@
-package com.hodvidar.cr.utils.recources;
+package com.hodvidar.cr.utils.resources;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

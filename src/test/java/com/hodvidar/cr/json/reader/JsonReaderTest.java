@@ -3,10 +3,13 @@ package com.hodvidar.cr.json.reader;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.hodvidar.cr.utils.numeric.NumericalConverter;
+import com.hodvidar.cr.utils.text.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,7 +97,7 @@ public class JsonReaderTest {
     }
 
     @Test
-    void jacksonJsonReadingLargeFile_totalMoneyRaised() throws IOException {
+    void jacksonJsonReadingLargeFile_CountCurrencies() throws IOException {
         final String filePath = RESOURCES + File.separator + COMPANIES;
         final File jsonFile = new File(filePath);
         JsonFactory jsonfactory = new JsonFactory(); //init factory
@@ -106,11 +109,12 @@ public class JsonReaderTest {
             if ("total_money_raised".equals(fieldname)) {
                 jsonToken = jsonParser.nextToken();
                 String moneyRaised = jsonParser.getText();
-                String deviseRaised = moneyRaised.substring(0, 1);
-                if (devises.containsKey(deviseRaised)) {
-                    devises.put(deviseRaised, devises.get(deviseRaised) + 1);
+                String[] split = StringUtils.splitLettersAndDigits(moneyRaised);
+                String currencyRaised = split[0];
+                if (devises.containsKey(currencyRaised)) {
+                    devises.put(currencyRaised, devises.get(currencyRaised) + 1);
                 } else {
-                    devises.put(deviseRaised, 1);
+                    devises.put(currencyRaised, 1);
                 }
             }
             jsonToken = jsonParser.nextToken();
@@ -119,6 +123,38 @@ public class JsonReaderTest {
         assertThat(devises.get("€")).isEqualTo(71);
         assertThat(devises.get("£")).isEqualTo(21);
         assertThat(devises.get("C$")).isEqualTo(10);
+    }
+
+    @Test
+    void jacksonJsonReadingLargeFile_CountMoneyRaisedByCurrency() throws IOException {
+        final String filePath = RESOURCES + File.separator + COMPANIES;
+        final File jsonFile = new File(filePath);
+        JsonFactory jsonfactory = new JsonFactory(); //init factory
+        JsonParser jsonParser = jsonfactory.createParser(jsonFile);
+        Map<String, BigDecimal> devises = new HashMap<>();
+        JsonToken jsonToken = jsonParser.nextToken();
+        while (jsonToken != null) {
+            String fieldname = jsonParser.getCurrentName();
+            if ("total_money_raised".equals(fieldname)) {
+                jsonToken = jsonParser.nextToken();
+                String moneyRaised = jsonParser.getText();
+                String[] split = StringUtils.splitCurrencyAmountAndExponent(moneyRaised);
+                String currencyRaised = split[0];
+                String amountMoneyRaised = split[1];
+                String exponentAmountMoneyRaised = split[2];
+                BigDecimal realAmountMoney = NumericalConverter.parseNumericalValue(amountMoneyRaised, exponentAmountMoneyRaised);
+                if (devises.containsKey(currencyRaised)) {
+                    devises.put(currencyRaised, devises.get(currencyRaised).add(realAmountMoney));
+                } else {
+                    devises.put(currencyRaised, realAmountMoney);
+                }
+            }
+            jsonToken = jsonParser.nextToken();
+        }
+        assertThat(devises.get("$").toPlainString()).isEqualTo("52069911000");
+        assertThat(devises.get("€").toPlainString()).isEqualTo("643782100");
+        assertThat(devises.get("£").toPlainString()).isEqualTo("59430000");
+        assertThat(devises.get("C$").toPlainString()).isEqualTo("73350000");
     }
 
 }

@@ -1,6 +1,5 @@
 package com.hodvidar.cr.utils.numeric;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -28,24 +27,4 @@ public class NumericalConverterTest {
                 .isEqualTo(expectedValue.toPlainString());
     }
 
-    @ParameterizedTest
-    @CsvSource(delimiter = '=', value = {
-            "2k = 2k",
-            "$2k = 2k",
-            "$$2k = 2k",
-            "0 = 0",
-            "2.14 = 2.14",
-            " = ",
-            "$$$abc$$$efg$$$ = abcefg"
-    })
-    void removeDollar(final String input, final String expectedValue) {
-        assertThat(NumericalConverter.removeDollar(input))
-                .isEqualTo(expectedValue);
-    }
-
-    @Test
-    void removeDollar2() {
-        assertThat(NumericalConverter.removeDollar("$$$"))
-                .isEqualTo("");
-    }
 }
