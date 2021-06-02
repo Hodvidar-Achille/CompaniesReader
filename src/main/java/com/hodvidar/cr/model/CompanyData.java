@@ -13,7 +13,7 @@ public class CompanyData {
         this.country = country;
         this.numberOfCompany = companiesForCountry.size();
         this.moneyRaisedInDollar = companiesForCountry.stream()
-                .map(c -> c.getMoneyRaisedInDollar())
+                .map(Company::getMoneyRaisedInDollar)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

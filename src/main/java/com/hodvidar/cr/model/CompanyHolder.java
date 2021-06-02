@@ -2,7 +2,6 @@ package com.hodvidar.cr.model;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.hodvidar.cr.utils.resources.ResourceCloser;
 import com.hodvidar.cr.utils.text.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ public class CompanyHolder {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final List<Company> companies;
-    private Map<String, List<Company>> companiesByCountry;
     private List<CompanyData> companyDataByCountry;
 
     private String numberOfCompanyAndMoneyRaisedByCountry = null;
@@ -63,7 +61,11 @@ public class CompanyHolder {
         } catch (IOException e) {
             logger.warn("An exception occurred", e);
         } finally {
-            ResourceCloser.closeResource(jsonParser);
+            try {
+                jsonParser.close();
+            } catch (IOException e) {
+                logger.warn("An exception occurred", e);
+            }
         }
     }
 
@@ -78,7 +80,7 @@ public class CompanyHolder {
             return this.numberOfCompanyAndMoneyRaisedByCountry;
         }
         if (companyDataByCountry == null) {
-            companiesByCountry = companies.stream()
+            Map<String, List<Company>> companiesByCountry = companies.stream()
                     .collect(Collectors.groupingBy(Company::getCountry));
             companyDataByCountry = companiesByCountry.entrySet().stream()
                     .map(e -> new CompanyData(e.getKey(), e.getValue()))

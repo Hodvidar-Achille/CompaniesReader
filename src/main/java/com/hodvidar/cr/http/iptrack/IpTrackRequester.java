@@ -8,28 +8,29 @@ import org.slf4j.LoggerFactory;
 
 public class IpTrackRequester {
 
-    // Too used : 712afde4e4da8fb6a016be61a8051822
+    // Too used :
+    // 712afde4e4da8fb6a016be61a8051822
+    // ae2a812dd265822556997b9d49a2c195
+    // e9206f50c83f2438a71c268825da585b
+    // bda77b37324d70f7618c8ac0fdfbcd74
     // b2c98d0769f2a909e5662fd0a63a95b7
-    // Too used : ae2a812dd265822556997b9d49a2c195
-    // Too used : e9206f50c83f2438a71c268825da585b
-    // Too used : bda77b37324d70f7618c8ac0fdfbcd74
-    private static final String IPTRACK_API_KEY = "b2c98d0769f2a909e5662fd0a63a95b7";
+    private static final String IPTRACK_API_KEY = "c4e961404767e94949cc5fa0041fab15";
     private static final String START_URL = "http://api.ipstack.com/";
     private static final String PARAMETERS = "?access_key="
             + IPTRACK_API_KEY
             + "&fields=country_name";
     private static final String UNKNOWN_COUNTRY = "Unknown";
-    private static IpTrackRequester INSTANCE = null;
+    private static IpTrackRequester instance = null;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private IpTrackRequester() {
     }
 
     public static synchronized IpTrackRequester getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new IpTrackRequester();
+        if (instance == null) {
+            instance = new IpTrackRequester();
         }
-        return INSTANCE;
+        return instance;
     }
 
     /**

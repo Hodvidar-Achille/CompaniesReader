@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class JsonReaderTest {
+class JsonReaderTest {
 
     public static final String RESOURCES = "src" + File.separator + "main" + File.separator + "resources";
     public static final String COMPANY_1_SIMPLE = "company1_simple.json";
@@ -118,10 +118,11 @@ public class JsonReaderTest {
             }
             jsonToken = jsonParser.nextToken();
         }
-        assertThat(devises.get("$")).isEqualTo(4898);
-        assertThat(devises.get("€")).isEqualTo(71);
-        assertThat(devises.get("£")).isEqualTo(21);
-        assertThat(devises.get("C$")).isEqualTo(10);
+        assertThat(devises)
+                .containsEntry("$", 4898)
+                .containsEntry("€", 71)
+                .containsEntry("£", 21)
+                .containsEntry("C$", 10);
     }
 
     @Test

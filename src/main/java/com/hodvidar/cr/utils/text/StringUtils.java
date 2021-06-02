@@ -27,11 +27,11 @@ public class StringUtils {
         final String[] splitAdapted = new String[3];
         splitAdapted[0] = split[0];
         splitAdapted[2] = split[split.length - 1];
-        String amount = "";
+        StringBuilder sb = new StringBuilder();
         for (int i = 1; i < split.length - 1; i++) {
-            amount += split[i];
+            sb.append(split[i]);
         }
-        splitAdapted[1] = amount;
+        splitAdapted[1] = sb.toString();
         return splitAdapted;
     }
 
@@ -41,8 +41,8 @@ public class StringUtils {
      * www.lightsurf.com
      */
     public static String sanitizeDomain(final String domainRaw) {
-        String domain = domainRaw.replaceAll("http://", "");
-        domain = domain.replaceAll("https://", "");
+        String domain = domainRaw.replace("http://", "");
+        domain = domain.replace("https://", "");
         return domain.split("/")[0];
     }
 

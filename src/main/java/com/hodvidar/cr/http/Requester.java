@@ -1,6 +1,5 @@
 package com.hodvidar.cr.http;
 
-import com.hodvidar.cr.utils.resources.ResourceCloser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,26 +10,23 @@ import java.net.URL;
 
 public class Requester {
 
-    private static Requester INSTANCE = null;
+    private static Requester instance = null;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private Requester() {
     }
 
     public static synchronized Requester getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Requester();
+        if (instance == null) {
+            instance = new Requester();
         }
-        return INSTANCE;
+        return instance;
     }
 
     public String performGet(final String fullURL) {
-        HttpURLConnection conn = null;
-        InputStreamReader in = null;
-        BufferedReader br = null;
         try {
             final URL url = new URL(fullURL);
-            conn = (HttpURLConnection) url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
@@ -39,17 +35,12 @@ public class Requester {
                         + "for url '" + fullURL + "'");
                 throw new IllegalStateException("HTTP error");
             }
-            in = new InputStreamReader(conn.getInputStream());
-            br = new BufferedReader(in);
-            final String output = br.readLine();
-            return output;
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            BufferedReader br = new BufferedReader(in);
+            return br.readLine();
         } catch (Exception e) {
             logger.warn("An exception occurred during the HTTP connection", e);
             throw new IllegalStateException("HTTP error");
-        } finally {
-            ResourceCloser.closeResource(br);
-            ResourceCloser.closeResource(in);
-            ResourceCloser.disconnectConnection(conn);
         }
     }
 

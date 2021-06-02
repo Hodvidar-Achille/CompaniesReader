@@ -24,10 +24,6 @@ public class Company {
     private String country;
     private BigDecimal moneyRaisedInDollar;
 
-    public Company() {
-
-    }
-
     public String getName() {
         return name;
     }
@@ -77,8 +73,11 @@ public class Company {
         }
         try {
             country = this.asyncCountryCaller.get();
-        } catch (InterruptedException | ExecutionException e) {
-            logger.warn("An exception occurred", e);
+        } catch (InterruptedException e) {
+            logger.warn("An InterruptedException occurred", e);
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            logger.warn("An ExecutionException occurred", e);
         }
         return country;
     }

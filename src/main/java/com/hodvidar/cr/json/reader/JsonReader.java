@@ -10,25 +10,23 @@ import java.io.IOException;
 
 public class JsonReader {
 
-    private static JsonReader INSTANCE = null;
+    private static JsonReader instance = null;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private JsonReader() {
     }
 
     public static synchronized JsonReader getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new JsonReader();
+        if (instance == null) {
+            instance = new JsonReader();
         }
-        return INSTANCE;
+        return instance;
     }
 
     public JsonParser getParserFromFile(final String filePath) {
         try {
             final File jsonFile = new File(filePath);
-            JsonFactory jsonfactory = new JsonFactory();
-            JsonParser jsonParser = jsonfactory.createParser(jsonFile);
-            return jsonParser;
+            return new JsonFactory().createParser(jsonFile);
         } catch (IOException e) {
             logger.warn("An exception occurred", e);
         }

@@ -5,7 +5,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CompanyTest {
+class CompanyTest {
 
     @ParameterizedTest
     @CsvSource(delimiter = '=', value = {

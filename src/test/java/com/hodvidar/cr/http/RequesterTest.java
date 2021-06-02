@@ -13,9 +13,9 @@ import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RequesterTest {
+class RequesterTest {
 
-    private static final String TEST_URL = "http://api.ipstack.com/digitalquarters.net?access_key=712afde4e4da8fb6a016be61a8051822&fields=country_name";
+    private static final String TEST_URL = "http://api.ipstack.com/digitalquarters.net?access_key=b2c98d0769f2a909e5662fd0a63a95b7&fields=country_name";
 
     @Test
     void httpRequest() throws IOException {
@@ -31,7 +31,6 @@ public class RequesterTest {
         BufferedReader br = new BufferedReader(in);
         String output = br.readLine();
         conn.disconnect();
-        //Using the JSON simple library parse the string into a json object
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree(output);
         String result = json.get("country_name").asText();
@@ -41,7 +40,6 @@ public class RequesterTest {
     @Test
     void performGet() throws JsonProcessingException {
         final String apiOutput = Requester.getInstance().performGet(TEST_URL);
-        //Using the JSON simple library parse the string into a json object
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree(apiOutput);
         String result = json.get("country_name").asText();

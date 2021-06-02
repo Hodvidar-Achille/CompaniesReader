@@ -1,22 +1,26 @@
 package com.hodvidar.cr.utils.numeric;
 
 public final class MillisecondFormatter {
-    private static final long oneHour = 3600000;
-    private static final long oneMinute = 60000;
-    private static final long oneSeconde = 1000;
+    private static final long ONE_HOUR = 3600000;
+    private static final long ONE_MINUTE = 60000;
+    private static final long ONE_SECOND = 1000;
 
-    public static final String asTime(long millisecondes) {
+    private MillisecondFormatter() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static final String asTime(long milliseconds) {
         String time = "";
-        final long hour = Math.floorDiv(millisecondes, oneHour);
+        final long hour = Math.floorDiv(milliseconds, ONE_HOUR);
         time += hour + " hour(s) ";
-        millisecondes -= oneHour * hour;
-        final long minute = Math.floorDiv(millisecondes, oneMinute);
+        milliseconds -= ONE_HOUR * hour;
+        final long minute = Math.floorDiv(milliseconds, ONE_MINUTE);
         time += minute + " minute(s) ";
-        millisecondes -= oneMinute * minute;
-        final long seconde = Math.floorDiv(millisecondes, oneSeconde);
-        time += seconde + " seconde(s) ";
-        millisecondes -= oneSeconde * seconde;
-        time += millisecondes + " ms";
+        milliseconds -= ONE_MINUTE * minute;
+        final long second = Math.floorDiv(milliseconds, ONE_SECOND);
+        time += second + " second(s) ";
+        milliseconds -= ONE_SECOND * second;
+        time += milliseconds + " ms";
         return time;
     }
 }

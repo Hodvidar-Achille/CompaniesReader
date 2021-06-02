@@ -49,8 +49,7 @@ public class NumericalConverter {
 
     private static BigDecimal multiplyByExponent(char exponent, BigDecimal number) {
         switch (exponent) {
-            case 'k':
-            case 'K':
+            case 'k', 'K':
                 return number.multiply(ONE_THOUSAND);
             case 'M':
                 return number.multiply(ONE_MILLION);

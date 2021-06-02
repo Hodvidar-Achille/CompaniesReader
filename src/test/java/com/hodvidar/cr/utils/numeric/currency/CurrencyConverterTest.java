@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CurrencyConvertertTest {
+class CurrencyConverterTest {
 
     @ParameterizedTest
     @CsvSource(delimiter = '|', value = {
@@ -20,7 +20,7 @@ public class CurrencyConvertertTest {
             "£ | 1000000000 | 1367300000.00",
             "C$ | 1000000000 | 785500000.00",
     })
-    void getMoneyRaisedInDollar(final String currency, final BigDecimal amount, final String expectedResult) {
+    void toUSD(final String currency, final BigDecimal amount, final String expectedResult) {
         assertThat(CurrencyConverter.toUSD(currency, amount).toPlainString()).isEqualTo(expectedResult);
     }
 }

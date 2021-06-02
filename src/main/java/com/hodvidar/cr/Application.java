@@ -14,7 +14,7 @@ public class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class.getSimpleName());
 
-    private static final String filePath = RESOURCES + File.separator + "companies.json";
+    private static final String FILE_PATH = RESOURCES + File.separator + "companies.json";
 
     public static void main(String[] args) {
         System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace");
@@ -22,7 +22,7 @@ public class Application {
         logger.info("\nCompany Reader App start... \n---------------------------------");
         // 1) Read the Json
         CompanyHolder companyHolder = new CompanyHolder();
-        companyHolder.addCompanies(JsonReader.getInstance().getParserFromFile(filePath));
+        companyHolder.addCompanies(JsonReader.getInstance().getParserFromFile(FILE_PATH));
         // 2) Start async work to retrieve country for each company
         // 3) for each country keep track of total money raised in USD (convert if different)
         // 4) once all async work are done, perform computation to have average value
